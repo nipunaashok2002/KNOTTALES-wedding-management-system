@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Gallery — KnotTales{% endblock %}
+
+{% block content %}
+
+<section class="section container">
+
+    <h1 class="section-title text-center">Real Wedding Moments</h1>
+    <p class="section-subtitle text-center">
+        Explore vibrant Indian wedding memories curated to inspire your celebration.
+    </p>
+
+    <!-- Gallery Filters -->
+    <div class="gallery-filters">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="ceremony">Ceremony</button>
+        <button class="filter-btn" data-category="reception">Reception</button>
+        <button class="filter-btn" data-category="decor">Decor</button>
+        <button class="filter-btn" data-category="haldi">Haldi / Mehendi</button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="gallery-grid">
+        {% for item in gallery %}
+        <div class="gallery-item fade-in"
+             data-category="{{ item.category }}"
+             data-img="{{ item.image.url }}">
+
+            <img src="{{ item.image.url }}" alt="{{ item.caption }}">
+            <div class="gallery-overlay">
+                <i class="fa fa-search-plus"></i>
+            </div>
+        </div>
+        {% empty %}
+        <p>No images added yet.</p>
+        {% endfor %}
+    </div>
+
+</section>
+
+<!-- FILTERING SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    // Filtering
+    const buttons = document.querySelectorAll(".filter-btn");
+    const items = document.querySelectorAll(".gallery-item");
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+
+            // Active button toggle
+            buttons.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const category = btn.dataset.category;
+
+            items.forEach(item => {
+                if (category === "all" || item.dataset.category === category) {
+                    item.style.display = "block";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        });
+    });
+});
+</script>
+
+{% endblock %}

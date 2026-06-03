@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Vendors — KnotTales{% endblock %}
+
+{% block content %}
+
+<section class="section container">
+
+    <h1 class="section-title text-center">Find Your Perfect Wedding Vendors</h1>
+    <p class="section-subtitle text-center">
+        Choose type, location, rating — then refine with budget
+    </p>
+
+    <!-- ============================
+         FILTER BAR (ONE ROW)
+    =============================== -->
+<form method="GET" class="vendor-filter-row">
+
+    <div class="filter-item">
+        <label>Category</label>
+        <select name="category" class="filter-select">
+            <option value="all">All</option>
+            {% for cat in categories %}
+            <option value="{{ cat.name }}" {% if selected_category == cat.name %}selected{% endif %}>
+                {{ cat.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="filter-item">
+        <label>Location</label>
+        <select name="location" class="filter-select">
+            <option value="all">All</option>
+            {% for loc in locations %}
+            <option value="{{ loc }}" {% if selected_location == loc %}selected{% endif %}>
+                {{ loc }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="filter-item">
+        <label>Rating</label>
+        <select name="rating" class="filter-select">
+            <option value="all">Any</option>
+            <option value="4" {% if selected_rating == "4" %}selected{% endif %}>4★ & above</option>
+            <option value="4.5" {% if selected_rating == "4.5" %}selected{% endif %}>4.5★ & above</option>
+            <option value="5" {% if selected_rating == "5" %}selected{% endif %}>5★ only</option>
+        </select>
+    </div>
+
+    <div class="budget-box">
+        <label>Budget</label>
+
+        <div class="slider-edge-values">
+            <span>₹{{ budget_ui.min }}</span>
+            <span>₹{{ budget_ui.max }}</span>
+        </div>
+
+        <input
+            type="range"
+            id="budget-slider"
+            name="budget"
+            min="{{ budget_ui.min }}"
+            max="{{ budget_ui.max }}"
+            step="{{ budget_ui.step }}"
+            value="{{ selected_budget|default:budget_ui.max }}"
+        >
+
+        <div class="slider-current-value">
+            Selected: ₹<span id="budgetValue">{{ selected_budget|default:budget_ui.max }}</span>
+        </div>
+    </div>
+
+    <div class="filter-actions">
+        <button type="submit" class="btn-primary">Apply</button>
+        <a href="{% url 'vendors' %}" class="btn-outline">Reset</a>
+    </div>
+
+</form>
+
+
+
+    <!-- ============================
+         VENDORS GRID
+    =============================== -->
+    <div class="vendors-grid">
+
+        {% for vendor in vendors %}
+        <div class="vendor-card">
+
+            <div class="vendor-img" style="background-image:url('{{ vendor.image.url }}')"></div>
+
+            <div class="vendor-info">
+
+                <div class="vendor-category">{{ vendor.category.name }}</div>
+
+                <h3 class="vendor-name">{{ vendor.name }}</h3>
+
+                <div class="vendor-meta">
+                    <span>{{ vendor.location }}</span>
+                    <span>★ {{ vendor.rating }}</span>
+                </div>
+
+                <p class="vendor-price">
+                    Approx: ₹{{ vendor.get_price_for_slider }}
+                </p>
+
+                <a href="{% url 'vendor_details' vendor.slug %}" class="btn-outline small-btn">Details</a>
+
+            </div>
+
+        </div>
+        {% empty %}
+            <p class="text-center" style="margin-top:20px;">No vendors found.</p>
+        {% endfor %}
+
+    </div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const slider = document.getElementById("budget-slider");
+    const display = document.getElementById("budget-display");
+
+    slider.addEventListener("input", () => {
+        display.textContent = "₹" + slider.value;
+    });
+});
+</script>
+
+{% endblock %}

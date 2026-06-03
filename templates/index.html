@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}KnotTales — Home{% endblock %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<section class="hero-section" data-img="{% static 'images/hero1.jpg' %}">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-text fade-in">
+        <h1>Celebrate Your Perfect Indian Wedding Story</h1>
+        <p>Discover the finest venues, photographers, decorators, and more — all in one place.</p>
+
+        <div class="hero-buttons">
+            <a href="{% url 'vendors' %}" class="btn-primary">Explore Vendors</a>
+            <a href="{% url 'contact' %}" class="btn-outline">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- FEATURE HIGHLIGHTS -->
+<section class="section container fade-in">
+    <div class="features-grid">
+
+        <div class="feature-card">
+            <img src="{% static 'images/venue.png' %}" alt="Venues" class="feature-icon">
+            <h3 class="feature-title">Top Wedding Venues</h3>
+            <p class="feature-text">Handpicked luxurious venues across India for every style and budget.</p>
+        </div>
+
+        <div class="feature-card">
+            <img src="{% static 'images/camera.png' %}" alt="Photography" class="feature-icon">
+            <h3 class="feature-title">Award-Winning Photographers</h3>
+            <p class="feature-text">Capture your magical moments with the finest photography teams.</p>
+        </div>
+
+        <div class="feature-card">
+            <img src="{% static 'images/decor.png' %}" alt="Decor" class="feature-icon">
+            <h3 class="feature-title">Stunning Wedding Decor</h3>
+            <p class="feature-text">From traditional to modern themes — curated decorators you can trust.</p>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- INSPIRATION STRIP (WITH CUSTOM BACKGROUND) -->
+<section class="inspiration-strip" 
+         data-img="{% static 'images/inspiration_bg.jpg' %}">
+    
+    <div class="inspiration-overlay"></div>
+
+    <div class="inspiration-text fade-in">
+        <h2>Inspiration. Style. Celebration.</h2>
+        <p>Every wedding tells a story — let’s create yours.</p>
+        <a href="{% url 'gallery' %}" class="btn-primary">Browse Gallery</a>
+    </div>
+
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const strip = document.querySelector(".inspiration-strip");
+    const img = strip.dataset.img;
+    strip.style.backgroundImage = `url('${img}')`;
+});
+</script>
+
+
+<!-- WEDDING HIGHLIGHT VIDEO -->
+<div class="video-wrapper">
+    <video controls preload="metadata" style="width: 100%; height: auto; border-radius: 14px;">
+        <source src="{% static 'videos/wedding_highlight.mp4' %}" type="video/webm">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+
+
+
+
+
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const hero = document.querySelector(".hero-section");
+    hero.style.backgroundImage = `url('${hero.dataset.img}')`;
+});
+</script>
+
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}About Us — KnotTales{% endblock %}
+
+{% block content %}
+
+<!-- ABOUT US HERO -->
+<section class="section container fade-in">
+     <h1 class="section-title text-center">About KnotTales</h1>
+
+    <p class="section-subtitle" style="max-width:760px; margin:auto;">
+        We are a passionate team of three at KnotTales, united by one mission — to make Indian wedding planning effortless, inspiring, and truly personal.
+With diverse strengths and a shared love for creativity and technology, we help couples discover the perfect vendors, explore unique inspirations, and find the support they need to craft unforgettable celebrations.
+
+From curated vendor matches to beautifully designed wedding websites, our goal is to simplify every step of the journey while preserving the magic, culture, and emotion that make Indian weddings extraordinary.
+Together, we are building more than a platform we are creating a space where stories begin, memories are designed, and every couples tale is woven with joy.
+    </p>
+</section>
+
+<!-- TEAM SECTION -->
+<section class="section container fade-in">
+
+    <div class="team-circle-grid">
+
+        <!-- 1) Nivedh -->
+        <div class="team-circle-card">
+            <div class="team-circle-photo">
+                <img src="{% static 'images/nivedh.jpg' %}" alt="Nivedh">
+            </div>
+            <h3 class="team-circle-name">Nivedh</h3>
+            <p class="team-circle-role"> <b>Founder • Creative Head • Innovation lead </b> </p>
+            <p class="team-circle-desc">
+                Oversees the platforms core vision and functionality, ensuring that every feature aligns with real-world wedding planning needs.
+        </div>
+
+        <!-- 2) Nipuna -->
+        <div class="team-circle-card">
+            <div class="team-circle-photo">
+                <img src="{% static 'images/nipuna.jpg' %}" alt="Nipuna">
+            </div>
+            <h3 class="team-circle-name">Nipuna</h3>
+            <p class="team-circle-role"><b>Founder • Technical Architect • Design Curator</b> </p>
+            <p class="team-circle-desc">
+                Designs and maintains the systems technical backbone, from database architecture to performance optimization. 
+            </p>
+        </div>
+
+        <!-- 3) Mrinalini -->
+        <div class="team-circle-card">
+            <div class="team-circle-photo">
+                <img src="{% static 'images/mrinalini.JPG' %}" alt="Mrinalini">
+            </div>
+            <h3 class="team-circle-name">Mrinalini</h3>
+            <p class="team-circle-role"><b>Founder • Product Manager • Coordinator</b></p>
+            <p class="team-circle-desc">
+                Leads the creative direction of the brand, crafting elegant UI/UX experiences that reflect the beauty and emotion of weddings. 
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

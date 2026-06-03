@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Contact Us — KnotTales{% endblock %}
+
+{% block content %}
+
+<section class="contact-hero" data-img="{% static 'images/contact_banner.jpg' %}">
+    <div class="hero-overlay"></div>
+    <div class="contact-hero-text">
+        <h1>Get in Touch</h1>
+        <p>We’re here to help make your dream wedding come alive.</p>
+    </div>
+</section>
+
+<section class="section container">
+
+    <div class="contact-grid">
+
+        <div class="contact-card fade-in">
+            <h2 class="section-title" style="margin-bottom: 1.5rem; color: #800000;">Send a Booking Enquiry</h2>
+
+            <form method="POST" action="{% url 'send_message' %}" id="bookingForm">
+                {% csrf_token %}
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Your Name</label>
+                        <input type="text" name="name" class="form-control" required placeholder="Jane Doe">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" name="email" class="form-control" required placeholder="jane@example.com">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Choose Vendor Type</label>
+                    <select name="vendor_type" id="vendor-type" class="form-control" required>
+                        <option value="all">Select type...</option>
+                        {% for cat in categories %}
+                        <option value="{{ cat.name }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Choose Vendor</label>
+                    <select name="vendor_slug" id="vendor-select" class="form-control" required>
+                        <option value="">Select a vendor (choose type first)</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Preferred Event Week</label>
+                        <input type="week" name="week" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Choose Theme Color</label>
+                        <input type="color" name="theme" class="form-control" style="height:50px; padding:4px;">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Message / Details</label>
+                    <textarea name="message" rows="5" class="form-control" placeholder="Tell us about your wedding plans..."></textarea>
+                </div>
+
+                <button type="submit" class="btn-primary full">Send Booking Request</button>
+            </form>
+        </div> 
+        <div class="contact-info-card fade-in delay-1">
+            <h3 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:#800000; margin-bottom:1.5rem;">Our Contact Info</h3>
+
+            <div class="contact-info-item">
+                <i class="fa fa-map-marker-alt"></i>
+                <div>
+                    <strong>Address</strong>
+                    <p style="font-size:0.95rem; color:#5C4545;">Christ University, Bangalore<br>India</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fa fa-phone"></i>
+                <div>
+                    <strong>Phone</strong>
+                    <p style="font-size:0.95rem; color:#5C4545;">+91 9037096229</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fa fa-envelope"></i>
+                <div>
+                    <strong>Email</strong>
+                    <p style="font-size:0.95rem; color:#5C4545;">knottales@gmail.com</p>
+                </div>
+            </div>
+        </div>
+        </div> </section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    
+    // 1. Set Hero Image
+    const hero = document.querySelector(".contact-hero");
+    if(hero && hero.dataset.img) {
+        hero.style.backgroundImage = `url('${hero.dataset.img}')`;
+    }
+
+    // 2. Dynamic Vendor Dropdown Logic
+    const categorySelect = document.getElementById("vendor-type");
+    const vendorSelect = document.getElementById("vendor-select");
+
+    function clearVendors() {
+        vendorSelect.innerHTML = '<option value="">Select a vendor (choose type first)</option>';
+    }
+
+    function populateVendors(list) {
+        vendorSelect.innerHTML = '';
+        if (!list || list.length === 0) {
+            vendorSelect.innerHTML = '<option value="">No vendors available for this type</option>';
+            return;
+        }
+        vendorSelect.innerHTML = '<option value="">Choose a vendor...</option>';
+        list.forEach(v => {
+            const opt = document.createElement("option");
+            opt.value = v.slug;
+            opt.textContent = v.name + (v.price ? ` — ₹${v.price}` : '');
+            vendorSelect.appendChild(opt);
+        });
+    }
+
+    if(categorySelect){
+        categorySelect.addEventListener("change", function (e) {
+            const selected = e.target.value;
+            if (!selected || selected === "all") {
+                clearVendors();
+                return;
+            }
+
+            fetch(`/api/vendors/?category=${encodeURIComponent(selected)}`)
+                .then(r => {
+                    if (!r.ok) throw new Error("Network response not ok");
+                    return r.json();
+                })
+                .then(data => {
+                    populateVendors(data.vendors || []);
+                })
+                .catch(err => {
+                    console.error("Failed to load vendors:", err);
+                    vendorSelect.innerHTML = '<option value="">Error loading vendors</option>';
+                });
+        });
+    }
+});
+</script>
+
+{% endblock %}

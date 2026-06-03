@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Dashboard — KnotTales{% endblock %}
+
+{% block content %}
+
+<!-- DASHBOARD HERO -->
+<section class="dashboard-hero" data-img="{% static 'images/dashboard_bg.jpg' %}">
+    <div class="hero-overlay"></div>
+    <div class="container dashboard-hero-text fade-in">
+        <h1>Hello, {{ user.username }} 🌸</h1>
+        <p>Your wedding planning dashboard</p>
+    </div>
+</section>
+
+<section class="section container fade-in">
+
+    <div class="dashboard-grid">
+
+        <!-- QUICK ACTIONS -->
+        <div class="dashboard-card">
+            <h3 class="section-subtitle" style="text-align:left;">Quick Links</h3>
+            <div class="quick-links">
+                <a href="{% url 'vendors' %}" class="quick-link-btn">Browse Vendors</a>
+                <a href="{% url 'gallery' %}" class="quick-link-btn">View Gallery</a>
+            </div>
+        </div>
+
+        <!-- Saved Vendors Section -->
+<div class="dashboard-card fade-in">
+
+    <h3 class="section-subtitle">Your Saved Vendors</h3>
+
+    {% if saved_vendors %}
+    <div class="saved-vendor-grid">
+
+        {% for v in saved_vendors %}
+        <div class="saved-vendor-card">
+
+            <div class="saved-vendor-img" style="background-image: url('{{ v.image.url }}');"></div>
+
+            <div class="saved-vendor-info">
+                <h4>{{ v.name }}</h4>
+                <p>{{ v.category.name }} • {{ v.location }}</p>
+
+                <a href="{% url 'vendor_details' v.slug %}" class="btn-outline small-btn">
+                    View
+                </a>
+            </div>
+
+        </div>
+        {% endfor %}
+
+    </div>
+    {% else %}
+        <p class="empty-text">You haven’t saved any vendors yet.</p>
+    {% endif %}
+
+</div>
+
+
+    </div>
+</section>
+
+{% endblock %}

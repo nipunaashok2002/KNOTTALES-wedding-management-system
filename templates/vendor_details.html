@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ vendor.name }} — KnotTales{% endblock %}
+
+{% block content %}
+
+<!-- Vendor Hero Section -->
+<section class="vendor-details-hero" style="background-image: url('{{ vendor.image.url }}')">
+    <div class="hero-overlay"></div>
+    <div class="vendor-hero-text">
+        <h1>{{ vendor.name }}</h1>
+        <p>{{ vendor.location }} • {{ vendor.category.name }}</p>
+    </div>
+</section>
+
+<section class="section container">
+
+    <div class="vendor-details-wrapper">
+
+        <!-- Left Column -->
+        <div class="vendor-main">
+
+            <h2 class="section-title">About This Vendor</h2>
+
+            <p class="vendor-description">
+                {{ vendor.description|linebreaksbr }}
+            </p>
+
+            <div class="vendor-meta-box">
+                <p><strong>Rating:</strong> ★ {{ vendor.rating }}</p>
+                <p><strong>Budget:</strong> {{ vendor.price_level }}</p>
+
+                {% if vendor.average_price %}
+                    <p><strong>Approx Price:</strong> ₹{{ vendor.average_price }}</p>
+                {% endif %}
+
+                <p><strong>Location:</strong> {{ vendor.location }}</p>
+            </div>
+
+            <!-- SAVE VENDOR BUTTON -->
+            {% if user.is_authenticated %}
+                <a href="{% url 'save_vendor' vendor.slug %}" 
+                   class="btn-outline" 
+                   style="margin-top:15px; display:inline-block;">
+                    {% if user in vendor.saved_by.all %}
+                        ★ Saved
+                    {% else %}
+                        ☆ Save Vendor
+                    {% endif %}
+                </a>
+            {% endif %}
+
+        </div>
+
+
+        <!-- Right Column -->
+        <div class="vendor-side">
+
+            <div class="vendor-card">
+                <h3>Contact This Vendor</h3>
+                <p>Have questions or want to book this vendor?</p>
+
+                <a href="{% url 'contact' %}" class="btn-primary full-width">
+                    Send Message
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- Gallery Section -->
+<section class="section container">
+
+    <h2 class="section-title">Gallery</h2>
+
+    <div class="gallery-grid">
+        {% for img in images %}
+            <div class="gallery-item">
+                <img src="{{ img.image.url }}" alt="{{ vendor.name }} image">
+            </div>
+        {% empty %}
+            <p>No additional images available for this vendor.</p>
+        {% endfor %}
+    </div>
+
+</section>
+
+{% endblock %}
