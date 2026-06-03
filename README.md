@@ -20,31 +20,6 @@ A full-stack wedding vendor discovery and management platform built with Django.
 - Responsive design
 
 ---
-
-## 📸 Screenshots
-
-### Home Page
-
-![Home](assets/homepage.png)
-
-### Vendor Discovery
-
-![Vendor Discovery](assets/vendor-listing.png)
-
-### Booking Enquiry
-
-![Booking](assets/booking-form.png)
-
-### Vendor Details
-
-![Vendor Details](assets/vendor-details.png)
-
-### Database Design
-
-![Database](assets/er-diagram.png)
-
----
-
 ## 🛠️ Tech Stack
 
 Frontend:
@@ -70,6 +45,31 @@ Database:
 - Frontend-backend integration
 
 ---
+## 📸 Screenshots
+
+### Home Page
+
+![Home](assets/homepage.png)
+
+### Vendor Discovery
+
+![Vendor Discovery](assets/vendor-listing.png)
+
+### Booking Enquiry
+
+![Booking](assets/booking-form.png)
+
+### Vendor Details
+
+![Vendor Details](assets/vendor-details.png)
+
+### Database Design
+
+![Database](assets/er-diagram.png)
+
+---
+
+
 
 ## 👩‍💻 Author
 
